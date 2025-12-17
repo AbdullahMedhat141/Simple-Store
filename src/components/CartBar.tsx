@@ -8,7 +8,7 @@ export default function CartBar({ cartCount, setShowCart }: CartBarProps) {
       <span>Cart Items: {cartCount}</span>
 
       <button className="cart-btn" onClick={() => setShowCart(true)}>
-        <img src="public\icon.svg" alt="shopping-cart" />
+        <img src="/icon.svg" alt="shopping-cart" />
         {cartCount !== 0 && <span className="red-dot"></span>}
       </button>
     </div>
