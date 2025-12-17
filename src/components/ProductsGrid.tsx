@@ -35,7 +35,7 @@ export default function ProductsGrid({
         const data = await res.json();
         setProducts(data.products);
       } catch (err) {
-        setError(err instanceof Error ? err.message : "Something went wrong");
+        setError("Something went wrong!");
       } finally {
         setLoading(false);
       }
@@ -48,6 +48,8 @@ export default function ProductsGrid({
     <div className="products-grid">
       {loading &&
         Array.from({ length: 6 }).map((_, i) => <ProductSkeleton key={i} />)}
+
+      {error && <p className="error">{error}</p>}
 
       {!loading &&
         !error &&
