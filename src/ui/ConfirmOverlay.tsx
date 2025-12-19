@@ -4,12 +4,14 @@ type ConfirmOverlayProps = {
   totalPrice: number;
   setIsConfirmOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setCartItems: React.Dispatch<React.SetStateAction<CartItem[]>>;
+  setShowCart: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export default function ConfirmOverlay({
   totalPrice,
   setIsConfirmOpen,
   setCartItems,
+  setShowCart,
 }: ConfirmOverlayProps) {
   return (
     <div className="confirm-overlay">
@@ -33,6 +35,7 @@ export default function ConfirmOverlay({
             onClick={() => {
               setCartItems([]);
               setIsConfirmOpen(false);
+              setShowCart(false);
             }}
           >
             Confirm

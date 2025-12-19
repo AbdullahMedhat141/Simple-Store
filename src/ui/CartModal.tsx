@@ -106,6 +106,7 @@ export default function CartModal({
           totalPrice={totalPrice}
           setIsConfirmOpen={setIsConfirmOpen}
           setCartItems={setCartItems}
+          setShowCart={setShowCart}
         />
       )}
     </>
