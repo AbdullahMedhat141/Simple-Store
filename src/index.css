@@ -234,6 +234,7 @@ body {
   cursor: pointer;
   font-size: 13px;
   transition: background 0.2s ease;
+  height: 30px;
 }
 
 .add-btn:hover {
@@ -341,6 +342,7 @@ body {
   align-items: center;
   gap: 6px;
   margin-right: 6px;
+  height: 30px;
 }
 
 .cart-qty-controls button {
