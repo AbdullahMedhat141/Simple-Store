@@ -1,15 +1,20 @@
 import { useEffect, useState } from "react";
 import type { CartItem, Product } from "../types";
 import ProductSkeleton from "../ui/ProductSkeleton";
+import ProductCard from "./ProductCard";
 
 type ProductsGridProps = {
   activeCategory: string;
-  setCartItems: React.Dispatch<React.SetStateAction<CartItem[]>>;
+  cartItems: CartItem[];
+  handleAdd: (p: Product) => void;
+  decreaseQty: (id: number) => void;
 };
 
 export default function ProductsGrid({
   activeCategory,
-  setCartItems,
+  cartItems,
+  handleAdd,
+  decreaseQty,
 }: ProductsGridProps) {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(false);
@@ -35,7 +40,10 @@ export default function ProductsGrid({
         const data = await res.json();
         setProducts(data.products);
       } catch (err) {
-        setError("Something went wrong!");
+        const message =
+          err instanceof Error ? err.message : "Something went wrong";
+
+        setError(message);
       } finally {
         setLoading(false);
       }
@@ -53,38 +61,14 @@ export default function ProductsGrid({
 
       {!loading &&
         !error &&
-        products.map((p) => (
-          <div className="product-card" key={p.id}>
-            <img src={p.thumbnail} alt={p.title} className="product-image" />
-
-            <h3 className="product-title">{p.title}</h3>
-            <p className="product-description">
-              {p.description.slice(0, 90)}...
-            </p>
-            <p className="product-category">Category: {p.category}</p>
-
-            <div className="product-footer">
-              <span className="product-price">${p.price}</span>
-              <button
-                className="add-btn"
-                onClick={() => {
-                  setCartItems((items) => {
-                    const existing = items.find((i) => i.id === p.id);
-
-                    if (existing) {
-                      return items.map((i) =>
-                        i.id === p.id ? { ...i, qty: i.qty + 1 } : i
-                      );
-                    }
-
-                    return [...items, { ...p, qty: 1 }];
-                  });
-                }}
-              >
-                Add to Cart
-              </button>
-            </div>
-          </div>
+        products.map((product) => (
+          <ProductCard
+            key={product.id}
+            product={product}
+            cartItems={cartItems}
+            handleAdd={handleAdd}
+            decreaseQty={decreaseQty}
+          />
         ))}
     </div>
   );

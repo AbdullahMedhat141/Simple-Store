@@ -6,6 +6,8 @@ type CartModalProps = {
   setShowCart: React.Dispatch<React.SetStateAction<boolean>>;
   cartItems: CartItem[];
   setCartItems: React.Dispatch<React.SetStateAction<CartItem[]>>;
+  handleAdd: (p: Product) => void;
+  decreaseQty: (id: number) => void;
   resetCart: () => void;
 };
 
@@ -14,30 +16,10 @@ export default function CartModal({
   cartItems,
   setCartItems,
   resetCart,
+  handleAdd,
+  decreaseQty,
 }: CartModalProps) {
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
-
-  function addToCart(product: Product) {
-    setCartItems((items) => {
-      const existing = items.find((i) => i.id === product.id);
-
-      if (existing) {
-        return items.map((i) =>
-          i.id === product.id ? { ...i, qty: i.qty + 1 } : i
-        );
-      }
-
-      return [...items, { ...product, qty: 1 }];
-    });
-  }
-
-  function decreaseQty(id: number) {
-    setCartItems((items) =>
-      items
-        .map((i) => (i.id === id ? { ...i, qty: i.qty - 1 } : i))
-        .filter((i) => i.qty > 0)
-    );
-  }
 
   function removeItem(id: number) {
     setCartItems((items) => items.filter((i) => i.id !== id));
@@ -80,7 +62,7 @@ export default function CartModal({
                 <div className="cart-qty-controls">
                   <button onClick={() => decreaseQty(item.id)}>−</button>
                   <span>{item.qty}</span>
-                  <button onClick={() => addToCart(item)}>+</button>
+                  <button onClick={() => handleAdd(item)}>+</button>
                 </div>
 
                 <button
